@@ -1,2 +1,3 @@
 Stores Supermarket related information for my Python program...
+
 Run the program, and enjoy shopping!
