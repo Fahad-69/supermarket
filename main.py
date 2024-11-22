@@ -14,7 +14,7 @@ except ImportError:
         time.sleep(1)
         print("PIP is required to install the modules!")
     else:
-        os.system("python -m pip install Pillow==9.5.0 pwinput pandas")
+        os.system("python -m pip install Pillow pwinput pandas")
         os.system('cls' if os.name=='nt' else 'clear')
         print("Supermarket Cart System:\n")
         print("Try to relaunch the program again!")
@@ -26,10 +26,20 @@ if os.name=='nt':
 
 users={}
 
+def getsize(line):
+    try:
+        font = ImageFont.truetype("cour.ttf", size=16)
+    except IOError:
+        font = ImageFont.load_default()
+    left, top, right, bottom = font.getbbox(line)
+    width = right - left
+    height = bottom - top       
+    return width, height
+
 def receiptpng():
     with open("receipt.txt") as f:
         lines = tuple(line.rstrip() for line in f.readlines())
-    
+
     try:
         font = ImageFont.truetype("cour.ttf", size=16)
     except IOError:
@@ -38,8 +48,8 @@ def receiptpng():
     font_points_to_pixels = lambda pt: round(pt * 96.0 / 72)
     margin_pixels = 20
 
-    tallest_line = max(lines, key=lambda line: font.getsize(line)[1])
-    max_line_height = font_points_to_pixels(font.getsize(tallest_line)[1])
+    tallest_line = max(lines, key=lambda line: getsize(line)[1])
+    max_line_height = font_points_to_pixels(getsize(tallest_line)[1])
     realistic_line_height = max_line_height * 0.8
     image_height = int(ceil(realistic_line_height * len(lines) + 2 * margin_pixels))
     os.system('cls' if os.name=='nt' else 'clear')
@@ -401,5 +411,3 @@ while True:
         exit()
     else:
         continue
-        
-        
